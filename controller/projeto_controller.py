@@ -1,5 +1,5 @@
 from view.menu import menu
-from model.model import  cadastrar, listar, pesquisar,alterar,deletar
+from model.model import  cadastrar, listar, pesquisar,alterar,deletar,vendas
 def iniciar():
     while True:
         opcao = menu()
@@ -16,6 +16,8 @@ def iniciar():
             alterar()
         elif opcao == 5:
             deletar()
+        elif opcao == 6:
+            vendas()
         elif opcao == 0:
             print("Encerrando...")
             break

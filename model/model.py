@@ -4,9 +4,11 @@ def cadastrar():
     nome_produto = input('Nome do produto: ')
     cod_produto = int(input('Código do produto: '))
     preco_produto = float(input('Preço(R$): '))
+    quant_produto = int(input('Digite a quantidade em estoque: '))
     produto = {'nome': nome_produto,
                'Codigo': cod_produto,
-               'Preco': preco_produto}
+               'Preco': preco_produto,
+               'quant':quant_produto}
     produtos.append(produto)
   
 def listar():
@@ -15,7 +17,8 @@ def listar():
         print(f'''
 Nome: {produto['nome']}
 Código: {produto['Codigo']}
-Preço: {produto['Preco']}''')
+Preço: {produto['Preco']}
+Estoque: {produto['quant']} ''')
 
 
 def pesquisar():
@@ -26,8 +29,10 @@ def pesquisar():
 -------Este produto está a venda-------
 Nome: {produto['nome']}
 Código: {produto['Codigo']}
-Preço: {produto['Preco']}''')
-    print('O produto está em falta')
+Preço: {produto['Preco']}
+Estoque: {produto['quant']} ''')
+            return
+print('O produto está em falta')
 def alterar():
     alteracao = input('Digite o item que você deseja alterar')
     for produto in produtos:
@@ -35,7 +40,8 @@ def alterar():
             print('''
 1.Alterar nome
 2.Alterar código
-3.Alterar preço''')
+3.Alterar preço
+4.Alterar quantidade''')
             escolha_alteracao = int(input())
             if escolha_alteracao == 1:
                 nome_produto = input('Nome do produto: ')
@@ -49,11 +55,45 @@ def alterar():
                 preco_produto = float(input('Preço(R$): '))
                 produto['Preco']= preco_produto
                 return print('Preço do produto alterado com sucesso!')
+            elif escolha_alteracao == 4:
+                 quant_produto = int(input('Digite a quantidade em estoque: '))
+                 produto['quant'] = quant_produto
+                 return print('Quantidade em estoque alterado com sucesso!')
     print('Produto não encontrado')    
 def deletar():
     produto_remover = input('Digite qual produto você deseja deletar')
     for produto in produtos:
         if produto_remover == produto['nome']:
             produtos.remove(produto)
-        return print('Produto excluído com sucesso')
+            print('Produto excluído com sucesso')
+            return
     print('Produto não encontrado')
+def vendas():
+    carrinho = []
+    venda = ''
+    while True:
+        if venda.upper() == 'S':
+            break
+        venda = input('Digite o nome/código do produto(S para prosseguir para o total): ')
+        for produto in produtos:
+            if venda == produto['nome'] or venda == str(produto['Codigo']):
+                quant_venda = int(input('Quantidade: '))
+                if quant_venda <= produto['quant']:
+                    produto['quant'] = produto['quant'] - quant_venda
+                    itens = {'nome': produto['nome'],
+                'preco': produto['Preco'],
+                'quantidade':quant_venda}
+                    carrinho.append(itens)
+                else:
+                    print("Estoque insuficiente")
+    print('''-------Carrinho------''')
+    total = 0
+    for itens in carrinho:
+        total_item = itens['preco'] * itens['quantidade']
+        total += total_item
+        print(f'''
+{itens["nome"]}
+{itens["quantidade"]}x R$ {itens["preco"]:.2f}       Subtotal: R$ {total_item:.2f}
+''')
+    print(f"TOTAL DA COMPRA: R$ {total:.2f}")
+    print('TENHA UM ÓTIMO DIA!!!')
