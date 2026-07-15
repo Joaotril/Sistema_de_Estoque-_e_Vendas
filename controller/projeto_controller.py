@@ -21,5 +21,7 @@ def iniciar():
         elif opcao == 0:
             print("Encerrando...")
             break
+        else:
+            print('Opção inválida!')
         input('Enter para voltar ao inicio ')
         print("\033c", end="")

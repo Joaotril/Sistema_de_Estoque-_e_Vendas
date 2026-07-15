@@ -19,7 +19,7 @@ def listar():
         print(f'''
 Nome: {produto['nome']}
 Código: {produto['Codigo']}
-Preço: {produto['Preco']}
+Preço: R${produto['Preco']}
 Estoque: {produto['quant']} ''')
 
 
@@ -27,7 +27,7 @@ def pesquisar():
     print("\033c", end="")
     pesquisa = input("Pesquise um produto:")
     for produto in produtos:
-        if pesquisa == produto['nome'] and produto['quant'] > 0:
+        if (pesquisa == produto['nome'] or pesquisa == str(produto['Codigo'])) and produto['quant'] > 0:
             print(f'''
 =======Este produto está a venda=======
 Nome: {produto['nome']}
@@ -40,7 +40,7 @@ def alterar():
     print('=======Alterar produto=======')
     alteracao = input('Digite o item que você deseja alterar: ')
     for produto in produtos:
-        if alteracao == produto['nome']:
+        if alteracao == produto['nome'] or alteracao == str(produto['Codigo']):
             print("\033c", end="")
             print('''=======Alterar produto=======
 1.Alterar nome
@@ -68,7 +68,7 @@ def alterar():
 def deletar():
     produto_remover = input('Digite qual produto você deseja deletar')
     for produto in produtos:
-        if produto_remover == produto['nome']:
+        if produto_remover == produto['nome'] or produto_remover == str(produto['Codigo']):
             produtos.remove(produto)
             print('Produto excluído com sucesso')
             return
@@ -77,11 +77,13 @@ def vendas():
     carrinho = []
     venda = ''
     while True:
+        venda = input('Digite o nome/código do produto(S para prosseguir para o total): ')
         if venda.upper() == 'S':
             break
-        venda = input('Digite o nome/código do produto(S para prosseguir para o total): ')
+        encontrado = False
         for produto in produtos:
             if venda == produto['nome'] or venda == str(produto['Codigo']):
+                encontrado = True
                 quant_venda = int(input('Quantidade: '))
                 if quant_venda <= produto['quant']:
                     produto['quant'] = produto['quant'] - quant_venda
@@ -91,8 +93,9 @@ def vendas():
                     carrinho.append(itens)
                 else:
                     print("Estoque insuficiente")
-            else:
-                print('Produto não encontrado')
+        if encontrado == False:
+            print('Produto não encontrado')
+    print("\033c", end="")
     print('''-------Carrinho------''')
     total = 0
     for itens in carrinho:
