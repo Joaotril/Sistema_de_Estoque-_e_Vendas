@@ -1,6 +1,7 @@
 produtos = []
 def cadastrar():
-    print("Cadastre um novo produto:")
+    print("\033c", end="")
+    print("=======Cadastre um novo produto=======")
     nome_produto = input('Nome do produto: ')
     cod_produto = int(input('Código do produto: '))
     preco_produto = float(input('Preço(R$): '))
@@ -10,9 +11,10 @@ def cadastrar():
                'Preco': preco_produto,
                'quant':quant_produto}
     produtos.append(produto)
-  
+    print('Produto cadastrado com sucesso!')
 def listar():
-    print("Lista de todos os produtos disponíveis")
+    print("\033c", end="")
+    print("=======Lista de todos os produtos disponíveis=======")
     for produto in produtos:
         print(f'''
 Nome: {produto['nome']}
@@ -22,22 +24,25 @@ Estoque: {produto['quant']} ''')
 
 
 def pesquisar():
+    print("\033c", end="")
     pesquisa = input("Pesquise um produto:")
     for produto in produtos:
-        if pesquisa == produto['nome']:
+        if pesquisa == produto['nome'] and produto['quant'] > 0:
             print(f'''
--------Este produto está a venda-------
+=======Este produto está a venda=======
 Nome: {produto['nome']}
 Código: {produto['Codigo']}
 Preço: {produto['Preco']}
 Estoque: {produto['quant']} ''')
             return
-print('O produto está em falta')
+    print('O produto está em falta ou não existe')
 def alterar():
-    alteracao = input('Digite o item que você deseja alterar')
+    print('=======Alterar produto=======')
+    alteracao = input('Digite o item que você deseja alterar: ')
     for produto in produtos:
         if alteracao == produto['nome']:
-            print('''
+            print("\033c", end="")
+            print('''=======Alterar produto=======
 1.Alterar nome
 2.Alterar código
 3.Alterar preço
@@ -86,6 +91,8 @@ def vendas():
                     carrinho.append(itens)
                 else:
                     print("Estoque insuficiente")
+            else:
+                print('Produto não encontrado')
     print('''-------Carrinho------''')
     total = 0
     for itens in carrinho:

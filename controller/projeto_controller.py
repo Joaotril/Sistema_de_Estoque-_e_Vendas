@@ -22,3 +22,4 @@ def iniciar():
             print("Encerrando...")
             break
         input('Enter para voltar ao inicio ')
+        print("\033c", end="")

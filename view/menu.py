@@ -5,6 +5,7 @@ def menu():
 3. Pesquisar um produto
 4. Alterar um produto
 5. Excluir um produto
+6. Venda
 0. Sair
 ''')
 
